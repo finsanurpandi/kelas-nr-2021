@@ -1,7 +1,10 @@
-
 Nama  : Ali Subhan
 NPM   : 5520121090
 
 Nama : Moch Ilyas Taufiqu Rohman Syabani
 NPM  : 5520121093
 KLS  : IFNR-2021
+
+Nama    : Lutfiyansah
+NPM     : 5520121110
+Kelas   : IF NR 2021
