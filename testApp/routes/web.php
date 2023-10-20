@@ -17,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/coba', [CobaController::class, 'coba']);
 
+Route::view('/contoh', 'contoh');
+
 Route::get('/test', function () {
     return view('sample.welcome');
 });

@@ -39,5 +39,10 @@
     <x-alert message="Pesan kedua" type="success"/>
     <x-alert message="Pesan ketiga" type="secondary"/>
     <x-alert message="Pesan keempat" type="warning"/>
+
+    <x-badge color="green">
+        <x-slot:header>Ini adalah Header</x-slot:header>
+        Ini adalah badge <img src="#"/>
+    </x-badge>
 </body>
 </html>
