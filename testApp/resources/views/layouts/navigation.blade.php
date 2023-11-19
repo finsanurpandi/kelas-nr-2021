@@ -24,6 +24,12 @@
                     </x-nav-link>
                 </div>
                 @endhasrole
+
+                <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('lecturer.index')" :active="request()->routeIs('lecturer.index')">
+                        {{ __('Dosen') }}
+                    </x-nav-link>
+                </div>
             </div>
 
             <!-- Settings Dropdown -->

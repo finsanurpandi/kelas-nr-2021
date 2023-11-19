@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\CobaController;
+use App\Http\Controllers\LecturerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -52,5 +53,11 @@ Route::get('/coba/{name?}', function($name = null) {
         return "Hello, ".$name;
     }
 });
+
+Route::prefix('lecturer')
+        ->name('lecturer.')
+        ->group(function () {
+            Route::get('/', [LecturerController::class, 'index'])->name('index'); 
+        });
 
 // <form method="post" action="{{ route('profile', ['finsa', 'kelas-nr', '2021']) }}">
