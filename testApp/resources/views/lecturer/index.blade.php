@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <!-- content here -->
 
-                    <table>
+                    {{-- <table>
                         <thead>
                             <tr>
                                 <th>#</th>
@@ -32,8 +32,9 @@
                             @endforeach
                         </tbody>
 
-                    </table>
+                    </table> --}}
 
+        <x-primary-button :href="route('lecturer.create')">Tambah Data</x-primary-button>
 
                     <div class="flex flex-col">
                         <div class="-m-1.5 overflow-x-auto">

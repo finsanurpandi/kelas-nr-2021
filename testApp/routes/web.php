@@ -58,6 +58,8 @@ Route::prefix('lecturer')
         ->name('lecturer.')
         ->group(function () {
             Route::get('/', [LecturerController::class, 'index'])->name('index'); 
+            Route::get('/create', [LecturerController::class, 'create'])->name('create'); 
+            Route::post('/store', [LecturerController::class, 'store'])->name('store'); 
         });
 
 // <form method="post" action="{{ route('profile', ['finsa', 'kelas-nr', '2021']) }}">
