@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Lecturer;
 use App\Models\Department;
+use App\Models\User;
 use App\Http\Requests\StoreLecturerRequest;
 use App\Http\Requests\UpdateLecturerRequest;
 
@@ -12,7 +13,10 @@ class LecturerController extends Controller
 {
     public function index()
     {
-        $data['lecturers'] = Lecturer::all();
+        // $data['lecturers'] = Lecturer::all();
+        $data['lecturers'] = Lecturer::with('department')->get();
+        // $students = Lecturer::find(5925868850)->students;
+        // dd($students);
 
         // $data['lecturers'] = Lecturer::where('department_id', 1)->first();
 
@@ -102,5 +106,15 @@ class LecturerController extends Controller
         Lecturer::onlyTrashed()->forceDelete();
 
         return redirect()->route('lecturer.recycle.bin');
+    }
+
+    public function students(string $nidn)
+    {
+        $data['students'] = Lecturer::find($nidn)->students()->with('department')->get();   
+        $data['lecturer'] = Lecturer::find($nidn);
+        $data['department'] = Department::find(1)->student;
+        $data['users'] = User::find(2);
+
+        return view('lecturer.student', $data);
     }
 }

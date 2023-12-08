@@ -60,8 +60,9 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ $no++ }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $lecturer->nidn }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $lecturer->name }}</td>
-                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $lecturer->department_id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $lecturer->department->name }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                      <x-primary-button :href="route('lecturer.students', $lecturer->nidn)">Mahasiswa</x-primary-button>
                                       <x-primary-button :href="route('lecturer.edit', $lecturer->nidn)">EDIT DATA</x-primary-button>
                                       <x-danger-button
                                           x-data=""

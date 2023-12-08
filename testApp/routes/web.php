@@ -70,6 +70,9 @@ Route::prefix('lecturer')
             Route::delete('/{nidn}/delete', [LecturerController::class, 'delete'])->name('force.delete');
             Route::post('/restore/all', [LecturerController::class, 'restore_all'])->name('restore.all');
             Route::delete('/delete/all', [LecturerController::class, 'delete_all'])->name('force.delete.all');
+
+            // relationship
+            Route::get('/{nidn}/students', [LecturerController::class, 'students'])->name('students');
         });
 
 // <form method="post" action="{{ route('profile', ['finsa', 'kelas-nr', '2021']) }}">
