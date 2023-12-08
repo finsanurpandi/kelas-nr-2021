@@ -1,0 +1,175 @@
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Recycle Bin') }}
+        </h2>
+    </x-slot>
+
+    <div class="py-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+                    <x-primary-button :href="route('lecturer.index')">
+                        Kembali
+                      </x-primary-button>
+                                    <x-primary-button
+                                        :disabled="($jumlah == 0) ? true : false"
+                                        x-data=""
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-lecture-restore-all')"
+                                        x-on:click="$dispatch('set-action', '{{ route('lecturer.restore.all') }}')"
+                                    >{{ __('Restore ALL Data') }}</x-primary-button>
+                                      <x-danger-button
+                                        :disabled="($jumlah == 0) ? true : false"
+                                          x-data=""
+                                          x-on:click.prevent="$dispatch('open-modal', 'confirm-lecture-delete-all')"
+                                          x-on:click="$dispatch('set-action', '{{ route('lecturer.force.delete.all') }}')"
+                                      >{{ __('Delete ALL Data') }}</x-danger-button>
+                                    </td>
+                    
+                    <div class="flex flex-col">
+                        <div class="-m-1.5 overflow-x-auto">
+                          <div class="p-1.5 min-w-full inline-block align-middle">
+                            <div class="overflow-hidden">
+                              <table class="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead>
+                                  <tr>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">#</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">NIDN</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">NAMA</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">DEPARTMENT_ID</th>
+                                    <th scope="col" class="px-6 py-3 text-start text-xs font-medium text-gray-500 uppercase">AKSI</th>
+                                  </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 dark:divide-gray-700">
+                                @php $no=1; @endphp
+                                @foreach($lecturers as $lecturer) 
+                                  <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">{{ $no++ }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $lecturer->nidn }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $lecturer->name }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">{{ $lecturer->department_id }}</td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                                    <x-primary-button
+                                        x-data=""
+                                        x-on:click.prevent="$dispatch('open-modal', 'confirm-lecture-restore')"
+                                        x-on:click="$dispatch('set-action', '{{ route('lecturer.restore', $lecturer->nidn) }}')"
+                                    >{{ __('Restore Data') }}</x-primary-button>
+                                      <x-danger-button
+                                          x-data=""
+                                          x-on:click.prevent="$dispatch('open-modal', 'confirm-lecture-delete')"
+                                          x-on:click="$dispatch('set-action', '{{ route('lecturer.force.delete', $lecturer->nidn) }}')"
+                                      >{{ __('Delete Data') }}</x-danger-button>
+                                    </td>
+                                  </tr>
+                                @endforeach
+                      
+                                  
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL -->
+    <x-modal name="confirm-lecture-restore" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" x-bind:action="action" class="p-6">
+            @csrf
+
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Apakah anda yakin akan mengembalikan data?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Setelah proses dilakukan, maka data akan kembali seperti semula.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-primary-button class="ml-3">
+                    {{ __('Restore Data') }}
+                </x-primary-button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal name="confirm-lecture-delete" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" x-bind:action="action" class="p-6">
+            @csrf
+            @method('delete')
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Apakah anda yakin akan menghapus data?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Setelah proses dilakukan, maka data akan hilang dari database.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ml-3">
+                    {{ __('Delete Data') }}
+                </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal name="confirm-lecture-restore-all" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" x-bind:action="action" class="p-6">
+            @csrf
+
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Apakah anda yakin akan mengembalikan semua data?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Setelah proses dilakukan, maka data akan kembali seperti semula.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-primary-button class="ml-3">
+                    {{ __('Restore Data') }}
+                </x-primary-button>
+            </div>
+        </form>
+    </x-modal>
+
+    <x-modal name="confirm-lecture-delete-all" :show="$errors->userDeletion->isNotEmpty()" focusable>
+        <form method="post" x-bind:action="action" class="p-6">
+            @csrf
+            @method('delete')
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                {{ __('Apakah anda yakin akan menghapus semua data?') }}
+            </h2>
+
+            <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                {{ __('Setelah proses dilakukan, maka data akan hilang dari database.') }}
+            </p>
+
+            <div class="mt-6 flex justify-end">
+                <x-secondary-button x-on:click="$dispatch('close')">
+                    {{ __('Cancel') }}
+                </x-secondary-button>
+
+                <x-danger-button class="ml-3">
+                    {{ __('Delete Data') }}
+                </x-danger-button>
+            </div>
+        </form>
+    </x-modal>
+</x-app-layout>

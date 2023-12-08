@@ -60,6 +60,16 @@ Route::prefix('lecturer')
             Route::get('/', [LecturerController::class, 'index'])->name('index'); 
             Route::get('/create', [LecturerController::class, 'create'])->name('create'); 
             Route::post('/store', [LecturerController::class, 'store'])->name('store'); 
+            Route::get('/{nidn}/edit', [LecturerController::class, 'edit'])->name('edit');
+            Route::patch('/{nidn}/update', [LecturerController::class, 'update'])->name('update');
+            Route::delete('/{nidn}', [LecturerController::class, 'destroy'])->name('destroy');
+
+            // soft deletes
+            Route::get('/recycle-bin', [LecturerController::class, 'recycle_bin'])->name('recycle.bin');
+            Route::post('/{nidn}/restore', [LecturerController::class, 'restore'])->name('restore');
+            Route::delete('/{nidn}/delete', [LecturerController::class, 'delete'])->name('force.delete');
+            Route::post('/restore/all', [LecturerController::class, 'restore_all'])->name('restore.all');
+            Route::delete('/delete/all', [LecturerController::class, 'delete_all'])->name('force.delete.all');
         });
 
 // <form method="post" action="{{ route('profile', ['finsa', 'kelas-nr', '2021']) }}">
