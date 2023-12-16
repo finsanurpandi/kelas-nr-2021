@@ -13,6 +13,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
 use Illuminate\View\View;
 
+use Illuminate\Support\Facades\Notification;
+use App\Notifications\RegisteredUserNotification;
+
 class RegisteredUserController extends Controller
 {
     /**
@@ -44,7 +47,10 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        $user->assignRole('user');
+        // $user->assignRole('user');
+
+        $admin = User::role('admin')->get();
+        Notification::send($admin, new RegisteredUserNotification($user));
 
         event(new Registered($user));
 

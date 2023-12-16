@@ -9,6 +9,9 @@ use App\Models\User;
 use App\Http\Requests\StoreLecturerRequest;
 use App\Http\Requests\UpdateLecturerRequest;
 
+use Illuminate\Support\Facades\Mail;
+use App\Mail\TestMail;
+
 class LecturerController extends Controller
 {
     public function index()
@@ -25,6 +28,8 @@ class LecturerController extends Controller
         // echo "<pre>";
         // print_r($lecturers);
         // echo "</pre>";
+
+        $data['user'] = auth()->user(); 
         return view('lecturer.index', $data);
     }
 
@@ -110,11 +115,32 @@ class LecturerController extends Controller
 
     public function students(string $nidn)
     {
-        $data['students'] = Lecturer::find($nidn)->students()->with('department')->get();   
+        // $data['students'] = Lecturer::find($nidn)->students()->with('department')->get();   
+        $data['students'] = Lecturer::findOrFail($nidn)->students;
         $data['lecturer'] = Lecturer::find($nidn);
         $data['department'] = Department::find(1)->student;
         $data['users'] = User::find(2);
 
         return view('lecturer.student', $data);
+    }
+
+    public function testMail()
+    {
+        $lecturer = Lecturer::find('368352131');
+
+        $penerima = [
+            'penerima1@mail.com',
+            'penerima2@mail.com',
+            'penerima3@mail.com',
+            'penerima4@mail.com',
+            'penerima5-mail.com',
+        ];
+
+        foreach ($penerima as $pen) {
+            Mail::to($pen)->queue(new TestMail($lecturer));    
+        }
+        
+        // method to untuk alamat email penerima
+        // method send adalah class mailable nya
     }
 }

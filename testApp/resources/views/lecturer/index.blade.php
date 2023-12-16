@@ -34,6 +34,12 @@
 
                     </table> --}}
 
+                    
+
+                    @foreach($user->unreadNotifications as $notif)
+                        User baru dengan email {{ $notif->data['email'] }} telah mendaftar <br/>
+                    @endforeach
+
         <x-primary-button :href="route('lecturer.create')">Tambah Data</x-primary-button>
         <x-primary-button :href="route('lecturer.recycle.bin')">
           Recycle Bin

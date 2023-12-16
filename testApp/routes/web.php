@@ -73,6 +73,9 @@ Route::prefix('lecturer')
 
             // relationship
             Route::get('/{nidn}/students', [LecturerController::class, 'students'])->name('students');
+
+            // mail
+            Route::get('/testMail', [LecturerController::class, 'testMail']); 
         });
 
 // <form method="post" action="{{ route('profile', ['finsa', 'kelas-nr', '2021']) }}">
